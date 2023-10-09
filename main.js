@@ -1,85 +1,85 @@
+let keys = document.querySelectorAll(".key");
+let audio;
+let key;
+
+window.addEventListener("keydown", playSound);
+// window.addEventListener("keydown", (event) => {
+//  console.log(event);
+// });
 
 
-// let myElement ;
+keys.forEach(function (key) {
+  key.addEventListener("transitionend", removeTransition);
+});
 
-// window.addEventListener("keypress", function(e) {
-//     if (e.key == 'a') {
-//         document.querySelector('audio[data-key = "65"]').play();
-//         myElement = document.querySelector('div[data-key = "65"]');
-//         myElement.classList.add("playing");
-// 	}
-//     if (e.key == 'z') {
-//         document.querySelector('audio[data-key = "90"]').play()
-//         myElement = document.querySelector('div[data-key = "90"]');
-//         myElement.classList.add("playing");
-//         }
-//     if (e.key == 'e') {
-//         document.querySelector('audio[data-key = "69"]').play()
-//         myElement = document.querySelector('div[data-key = "69"]');
-//         myElement.classList.add("playing");
-//         }
-//     if (e.key == 'q') {
-//         document.querySelector('audio[data-key = "81"]').play()
-//         myElement = document.querySelector('div[data-key = "81"]');
-//         myElement.classList.add("playing");
-//         }
-//     if (e.key == 's') {
-//         document.querySelector('audio[data-key = "83"]').play()
-//         myElement = document.querySelector('div[data-key = "83"]');
-//         myElement.classList.add("playing");
-//         }
-//     if (e.key == 'd') {
-//         document.querySelector('audio[data-key = "68"]').play()
-//         myElement = document.querySelector('div[data-key = "68"]');
-//         myElement.classList.add("playing");
-//         }
-//     if (e.key == 'w') {
-//          document.querySelector('audio[data-key = "87"]').play()
-//          myElement = document.querySelector('div[data-key = "87"]');
-//          myElement.classList.add("playing");
-//         }
-//     if (e.key == 'x') {
-//         document.querySelector('audio[data-key = "88"]').play()
-//         myElement = document.querySelector('div[data-key = "88"]');
-//         myElement.classList.add("playing");
-//         }
-//     if (e.key == 'c') {
-//         document.querySelector('audio[data-key = "67"]').play()
-//         myElement = document.querySelector('div[data-key = "67"]');
-//         myElement.classList.add("playing");
-//         }
-//         setTimeout(() => {
-//         myElement.classList.remove("playing");
-//         }, 250);
-//   });    
+function playSound(event) {
+  // console.log(event);
+  audio = document.querySelector(`audio[data-key="${event.keyCode}"]`);
+  key = document.querySelector(`.key[data-key="${event.keyCode}"]`);
 
+  if (!audio) return;
 
-function playing_audio(keycode) {
-    document.querySelector('audio[data-key="' + keycode + '"]').play();
-    document.querySelector('div[data-key="' + keycode + '"]').classList.toggle("playing")();
-    // console.log(keycode);
+  audio.currentTime = 0;
+  audio.play();
+  key.classList.add("playing");
 }
 
-window.addEventListener('keydown', (event) => {
-    playing_audio(event.keyCode);
-    // console.log(event.keyCode);
+function removeTransition(event) {
+  event.target.classList.remove("playing");
+}
+
+
+
+// /*##########################################*/
+
+async function beatBox() {
+  function simulateKey(keyCode) {
+    let event = new KeyboardEvent("keydown", {
+      keyCode: keyCode,
+    });
+    window.dispatchEvent(event);
+  }
+
+  function playBeat(keyCode, time) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve(simulateKey(keyCode));
+      }, time);
+    });
+  }
+
+
+  while(loop){
+    await playBeat(65, 100);
+    await playBeat(90, 200);
+    await playBeat(88, 250);
+  
+    await playBeat(81, 300);
+    await playBeat(68, 400);
+    await playBeat(67, 450);
+  
+    await playBeat(87, 500);
+    await playBeat(83, 550);
+    await playBeat(69, 600);
+  }
+  
+}
+
+let loop;
+document.addEventListener("keydown", (event) => {
+   loop = true;
+   // Vérifie si la touche appuyée est la touche G (keyCode 71)
+  if (event.keyCode === 71) {    
+      beatBox(); // Lance la séquence de "beats"
+  }
 });
 
-
-window.addEventListener('keyup', (event) => {
-    playing_audio(event.keyCode);
-    // console.log(event.keyCode);
+document.addEventListener("keydown", (event) => {
+  // Vérifie si la touche appuyée est la touche H (keyCode 72)
+  if (event.keyCode === 72){
+    loop = false;
+  }    
 });
-    
-
-
-
-
-
-
-
-
-
 
 
 
